@@ -1,0 +1,18 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 42em;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+:global(.cover) {
+  padding: 0 1.5rem;
+}
+
+:global(.cover .btn-lg) {
+  padding: .75rem 1.25rem;
+  font-weight: 700;
+}

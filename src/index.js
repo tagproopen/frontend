@@ -1,12 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { Route, Switch } from "react-router-dom";
+import { ConnectedRouter } from 'connected-react-router';
+import { store, history } from './store';
+import Landing from './_Landing';
+import NoMatch from './_NoMatch';
+import Game from './_Game';
+import './styles.scss';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route component={Landing} path="/" exact />
+        <Route component={Game} path="/game" exact />
+        <Route component={NoMatch} />
+      </Switch>
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+);
