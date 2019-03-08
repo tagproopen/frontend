@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { gameNotInited } from 'services/gameUI/actions';
 
-// const PIXI = window.PIXI;
-// const Box2D = window.Box2D;
-export default class extends Component {
+const mapStateToProps = (state) => {
+  return state.gameUI;
+};
+
+const mapDispatchToProps = dispatch => ({
+    gameNotInited: () => dispatch(gameNotInited()),
+});
+
+const PIXI = window.PIXI;
+const Box2D = window.Box2D;
+class index extends Component {
   componentDidMount() {
-    // if (!this.props.isAuthed) return;
-
-    // console.log('test', Box2D);
+    if (!this.props.initGame) {
+      this.props.gameNotInited();
+    }
+    console.log('test', Box2D);
     // let type = "WebGL";
     // if (!PIXI.utils.isWebGLSupported()) {
     //   type = "canvas";
@@ -172,17 +183,9 @@ export default class extends Component {
     // }
   }
 
-  componentDidUpdate() {
-    // if (!this.props.isAuthed) {
-    //   this.props.history.push('/');
-    // }
-  }
-
   render() {
-    return (
-      <div>
-        <canvas id="c" width="800" height="600"></canvas>
-      </div>
-    );
+    return null;
   }
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

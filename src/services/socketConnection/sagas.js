@@ -1,8 +1,11 @@
 import { eventChannel, END } from 'redux-saga';
-import { 
-   takeLatest, 
-   take 
+import {
+   delay,
+   put,
+   take, 
+   takeLatest,
 } from 'redux-saga/effects'
+import Action from '../actionTypes';
 
 
 function waitForConnection(socket) {
@@ -14,18 +17,22 @@ function waitForConnection(socket) {
    });
 }
 
-function* initSocketConnection(action) {
+function* initSocketConnection() {
+   yield put({ type: Action.SOCKET_CONNECTION_START });
    const socket = yield window.io.connect("http://localhost:2000");
+
    const chan = yield waitForConnection(socket);
    try {
       while (true) {
          yield take(chan)
       }
    } finally {
-      console.log('socket connected');
+      yield delay(350);
+      yield put({ type: Action.SOCKET_CONNECTION_SUCCEEDED, socket });
+      yield put({ type: Action.GAMEUI_INIT_GAME, socket })
    }
 }
 
-export default [
-   takeLatest("INIT_SOCKET_CONNECTION", initSocketConnection),
+export const socketConnectionSagas = [
+   takeLatest(Action.SOCKET_CONNECTION_INIT, initSocketConnection),
 ];
